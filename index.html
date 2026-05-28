@@ -3,41 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerador de Blocos - Rifas e Recibos</title>
+    <title>Gerador Profissional - Rifas e Recibos</title>
     <style>
-        /* Estilos da Interface do Usuário */
+        /* Estilos da Interface do Usuário (Painel de Controle) */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f6f9;
+            background-color: #f0f2f5;
             margin: 0;
             padding: 20px;
             color: #333;
         }
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             background: white;
             padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
-        h1, h2 {
-            color: #2c3e50;
+        h1 {
+            color: #1e3a8a;
             text-align: center;
+            margin-bottom: 25px;
+        }
+        h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 8px;
+            margin-top: 25px;
         }
         .tabs {
             display: flex;
             justify-content: center;
-            margin-bottom: 20px;
-            gap: 10px;
+            margin-bottom: 25px;
+            gap: 15px;
         }
         .tab-btn {
-            padding: 10px 20px;
-            border: none;
-            background: #e0e0e0;
+            padding: 12px 24px;
+            border: 2px solid #3498db;
+            background: white;
+            color: #3498db;
             cursor: pointer;
             font-weight: bold;
-            border-radius: 4px;
+            border-radius: 6px;
+            font-size: 16px;
             transition: 0.3s;
         }
         .tab-btn.active {
@@ -50,38 +59,51 @@
         .form-section.active {
             display: block;
         }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
         .form-group {
             margin-bottom: 15px;
         }
         label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
             font-weight: 600;
+            color: #4b5563;
         }
-        input, select {
+        input, select, textarea {
             width: 100%;
             padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
             box-sizing: border-box;
+            font-size: 14px;
+        }
+        input:focus, select:focus, textarea:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
         }
         button.generate-btn {
             width: 100%;
-            padding: 12px;
-            background: #2ecc71;
+            padding: 14px;
+            background: #10b981;
             color: white;
             border: none;
-            border-radius: 4px;
-            font-size: 16px;
+            border-radius: 6px;
+            font-size: 18px;
             font-weight: bold;
             cursor: pointer;
-            margin-top: 15px;
+            margin-top: 25px;
+            transition: 0.2s;
         }
         button.generate-btn:hover {
-            background: #27ae60;
+            background: #059669;
         }
 
-        /* --- ESTILOS DE IMPRESSÃO (Onde a mágica do bloco acontece) --- */
+        /* --- ESTILOS EXCLUSIVOS DE IMPRESSÃO --- */
         @media print {
             body * {
                 visibility: hidden;
@@ -95,11 +117,6 @@
                 top: 0;
                 width: 100%;
             }
-            .container {
-                box-shadow: none;
-                padding: 0;
-                margin: 0;
-            }
             .no-print {
                 display: none !important;
             }
@@ -109,91 +126,191 @@
             }
         }
 
-        /* Design dos Bilhetes Impressos */
+        /* Design de Engenharia do Bloco Papel */
         .bloco-item {
             display: flex;
-            border: 1px solid #999;
-            margin-bottom: 15px;
-            height: 130px;
+            border: 1.5px solid #475569;
+            margin-bottom: 20px;
             background: #fff;
             color: #000;
             box-sizing: border-box;
+            page-break-inside: avoid;
         }
-        .canhoto {
+        
+        /* Estilos da Rifa */
+        .rifa-height { height: 160px; }
+        .canhoto-rifa {
             width: 30%;
-            border-right: 2px dashed #666;
+            border-right: 2px dashed #475569;
             padding: 10px;
             box-sizing: border-box;
-            font-size: 12px;
-            position: relative;
+            font-size: 11px;
+            line-height: 1.4;
         }
-        .via-principal {
+        .principal-rifa {
             width: 70%;
-            padding: 10px;
+            padding: 12px;
             box-sizing: border-box;
             position: relative;
+            font-size: 12px;
+            line-height: 1.4;
         }
+
+        /* Estilos do Recibo */
+        .recibo-height { height: 210px; }
+        .canhoto-recibo {
+            width: 25%;
+            border-right: 2px dashed #475569;
+            padding: 10px;
+            box-sizing: border-box;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+        .principal-recibo {
+            width: 75%;
+            padding: 15px;
+            box-sizing: border-box;
+            position: relative;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        /* Elementos Genéricos do Bloco */
         .num-destaque {
             position: absolute;
-            top: 10px;
+            top: 12px;
             right: 15px;
-            color: red;
+            color: #dc2626;
             font-weight: bold;
-            font-size: 16px;
+            font-size: 18px;
         }
         .linha-preencher {
             border-bottom: 1px solid #000;
             display: inline-block;
-            margin-bottom: 5px;
+        }
+        .text-muted {
+            font-size: 10px;
+            color: #555;
+        }
+        .emissor-info {
+            font-size: 10px;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 5px;
+            margin-bottom: 8px;
         }
     </style>
 </head>
 <body>
 
     <div class="container no-print">
-        <h1>🎟️ Gerador de Blocos</h1>
+        <h1>🎟️ Gerador de Blocos Profissional</h1>
         
         <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('rifa')">Criar Rifa</button>
-            <button class="tab-btn" onclick="switchTab('recibo')">Criar Recibo</button>
+            <button class="tab-btn active" onclick="switchTab('rifa')">Criar Bloco de Rifa</button>
+            <button class="tab-btn" onclick="switchTab('recibo')">Criar Bloco de Recibo</button>
         </div>
 
+        <!-- Seção: Informações do Emissor (Comum para os dois) -->
+        <div id="emissor-dados">
+            <h2>1. Dados do Organizador / Emissor</h2>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Nome / Razão Social:</label>
+                    <input type="text" id="empresa-nome" value="Associação Amigos do Bairro">
+                </div>
+                <div class="form-group">
+                    <label>CPF ou CNPJ:</label>
+                    <input type="text" id="empresa-documento" value="00.000.000/0001-00">
+                </div>
+            </div>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Endereço Completo:</label>
+                    <input type="text" id="empresa-endereco" value="Rua das Flores, 123 - Centro">
+                </div>
+                <div class="form-group">
+                    <label>Telefone / Contato:</label>
+                    <input type="text" id="empresa-telefone" value="(11) 99999-0000">
+                </div>
+            </div>
+        </div>
+
+        <!-- FORMULÁRIO: RIFA -->
         <div id="rifa-section" class="form-section active">
-            <h2>Configurar Bloco de Rifas</h2>
+            <h2>2. Detalhes da Rifa</h2>
             <div class="form-group">
-                <label>Prêmio:</label>
-                <input type="text" id="rifa-premio" value="Notebook Novo">
+                <label>Prêmio Principal:</label>
+                <input type="text" id="rifa-premio" value="Moto 160cc 0km">
             </div>
-            <div class="form-group">
-                <label>Valor (R$):</label>
-                <input type="number" id="rifa-valor" value="10.00" step="0.01">
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Valor do Bilhete (R$):</label>
+                    <input type="number" id="rifa-valor" value="20.00" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label>Data do Sorteio:</label>
+                    <input type="text" id="rifa-data" value="25/12/2026">
+                </div>
             </div>
-            <div class="form-group">
-                <label>Data do Sorteio:</label>
-                <input type="text" id="rifa-data" value="31/12/2026">
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Quantidade de Bilhetes:</label>
+                    <input type="number" id="rifa-qtd" value="5" min="1">
+                </div>
+                <div class="form-group">
+                    <label>Número Inicial:</label>
+                    <input type="number" id="rifa-inicio" value="1" min="0">
+                </div>
             </div>
-            <div class="form-group">
-                <label>Quantidade de Bilhetes:</label>
-                <input type="number" id="rifa-qtd" value="10" min="1">
-            </div>
-            <button class="generate-btn" onclick="gerarRifas()">Visualizar e Imprimir Rifa</button>
+            <button class="generate-btn" onclick="gerarRifas()">Visualizar e Imprimir Rifas</button>
         </div>
 
+        <!-- FORMULÁRIO: RECIBO -->
         <div id="recibo-section" class="form-section">
-            <h2>Configurar Bloco de Recibos</h2>
-            <p style="text-align: center; color: #666;">Os recibos serão gerados com campos em branco para preenchimento manual.</p>
-            <div class="form-group">
-                <label>Quantidade de Recibos:</label>
-                <input type="number" id="recibo-qtd" value="5" min="1">
+            <h2>2. Detalhes do Recibo</h2>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Nome do Pagador (Cliente):</label>
+                    <input type="text" id="recibo-pagador" value="Marcos Silva Oliveira">
+                </div>
+                <div class="form-group">
+                    <label>CPF/CNPJ do Pagador:</label>
+                    <input type="text" id="recibo-pagador-doc" value="111.222.333-44">
+                </div>
             </div>
-            <button class="generate-btn" onclick="gerarRecibos()">Visualizar e Imprimir Recibos</button>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Valor do Recibo (R$):</label>
+                    <input type="number" id="recibo-valor" value="350.00" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label>Data de Emissão:</label>
+                    <input type="text" id="recibo-data" value="28/05/2026">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Referente a (Descrição do Serviço/Produto):</label>
+                <textarea id="recibo-referencia" rows="2">Prestação de serviços de manutenção residencial e pintura.</textarea>
+            </div>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Quantidade de Vias/Folhas:</label>
+                    <input type="number" id="recibo-qtd" value="1" min="1">
+                </div>
+                <div class="form-group">
+                    <label>Número do Recibo:</label>
+                    <input type="number" id="recibo-num" value="101" min="1">
+                </div>
+            </div>
+            <button class="generate-btn" onclick="gerarRecibos()">Visualizar e Imprimir Recibo</button>
         </div>
     </div>
 
+    <!-- Área de Impressão (Invisível na tela do painel, visível no papel) -->
     <div id="printArea"></div>
 
     <script>
-        // Alternar entre abas de Rifa e Recibo
+        // Alternar abas do painel
         function switchTab(type) {
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
@@ -207,65 +324,112 @@
             }
         }
 
-        // Função para gerar as Rifas dinamicamente
+        // Captura dados do Emissor
+        function getEmissorData() {
+            return {
+                nome: document.getElementById('empresa-nome').value,
+                doc: document.getElementById('empresa-documento').value,
+                end: document.getElementById('empresa-endereco').value,
+                tel: document.getElementById('empresa-telefone').value
+            };
+        }
+
+        // Gerar Bloco de Rifas
         function gerarRifas() {
+            const emissor = getEmissorData();
             const premio = document.getElementById('rifa-premio').value;
             const valor = parseFloat(document.getElementById('rifa-valor').value).toFixed(2).replace('.', ',');
             const data = document.getElementById('rifa-data').value;
             const qtd = parseInt(document.getElementById('rifa-qtd').value);
+            const inicio = parseInt(document.getElementById('rifa-inicio').value);
             
             let htmlContent = '';
 
-            for(let i = 1; i <= qtd; i++) {
-                let numStr = String(i).padStart(3, '0');
+            for(let i = 0; i < qtd; i++) {
+                let numStr = String(inicio + i).padStart(4, '0');
                 htmlContent += `
-                    <div class="bloco-item">
-                        <div class="canhoto">
-                            <strong>Nº ${numStr}</strong><br><br>
+                    <div class="bloco-item rifa-height">
+                        <!-- CANHOTO DA RIFA -->
+                        <div class="canhoto-rifa">
+                            <strong>RIFA Nº ${numStr}</strong><br>
+                            <span class="text-muted">Valor: R$ ${valor}</span><br><br>
                             Nome: <span class="linha-preencher" style="width:70%"></span><br>
                             Tel: <span class="linha-preencher" style="width:75%"></span><br>
-                            Data: <span class="linha-preencher" style="width:70%"></span>
+                            End: <span class="linha-preencher" style="width:73%"></span>
                         </div>
-                        <div class="via-principal">
+                        
+                        <!-- VIA PRINCIPAL DA RIFA -->
+                        <div class="principal-rifa">
                             <span class="num-destaque">Nº ${numStr}</span>
-                            <h3 style="margin: 0 0 10px 0;">AÇÃO ENTRE AMIGOS</h3>
-                            <p style="margin: 5px 0;"><strong>Prêmio:</strong> ${premio}</p>
-                            <p style="margin: 5px 0;"><strong>Data do Sorteio:</strong> ${data}</p>
-                            <p style="margin: 5px 0;"><strong>Valor:</strong> R$ ${valor}</p>
+                            <div class="emissor-info">
+                                <strong>Org: ${emissor.nome}</strong> | CNPJ/CPF: ${emissor.doc}<br>
+                                <span class="text-muted">End: ${emissor.end} | Contato: ${emissor.tel}</span>
+                            </div>
+                            <h3 style="margin: 5px 0; color: #1e3a8a;">AÇÃO ENTRE AMIGOS</h3>
+                            <p style="margin: 4px 0;"><strong>Prêmio:</strong> ${premio}</p>
+                            <p style="margin: 4px 0;"><strong>Data do Sorteio:</strong> ${data}</p>
+                            <p style="margin: 4px 0; font-size: 14px;"><strong>Valor do Bilhete:</strong> R$ ${valor}</p>
                         </div>
                     </div>
                 `;
             }
 
             document.getElementById('printArea').innerHTML = htmlContent;
-            window.print(); // Abre a tela de salvar como PDF ou Imprimir do navegador
+            window.print();
         }
 
-        // Função para gerar os Recibos dinamicamente
+        // Gerar Bloco de Recibos
         function gerarRecibos() {
+            const emissor = getEmissorData();
+            const pagador = document.getElementById('recibo-pagador').value;
+            const pagadorDoc = document.getElementById('recibo-pagador-doc').value;
+            const valorNum = parseFloat(document.getElementById('recibo-valor').value).toFixed(2).replace('.', ',');
+            const data = document.getElementById('recibo-data').value;
+            const ref = document.getElementById('recibo-referencia').value;
             const qtd = parseInt(document.getElementById('recibo-qtd').value);
+            const numRecibo = parseInt(document.getElementById('recibo-num').value);
+
             let htmlContent = '';
 
-            for(let i = 1; i <= qtd; i++) {
-                let numStr = String(i).padStart(3, '0');
+            for(let i = 0; i < qtd; i++) {
+                let currentNum = String(numRecibo + i).padStart(4, '0');
                 htmlContent += `
-                    <div class="bloco-item" style="height: 150px;">
-                        <div class="canhoto" style="font-size: 11px;">
-                            <strong>RECIBO Nº ${numStr}</strong><br><br>
-                            Para: <span class="linha-preencher" style="width:65%"></span><br>
-                            Quantia: <span class="linha-preencher" style="width:55%"></span><br>
-                            Data: ____/____/_____
+                    <div class="bloco-item recibo-height">
+                        <!-- CANHOTO DO RECIBO -->
+                        <div class="canhoto-recibo">
+                            <strong>CANHOTO Nº ${currentNum}</strong><br><br>
+                            <strong>Para:</strong> <span class="text-muted">${pagador}</span><br>
+                            <strong>Valor:</strong> R$ ${valorNum}<br>
+                            <strong>Data:</strong> ${data}<br><br>
+                            Assinatura Canhoto:<br>
+                            <span class="linha-preencher" style="width:100%; margin-top:15px;"></span>
                         </div>
-                        <div class="via-principal">
-                            <span class="num-destaque">Nº ${numStr}</span>
-                            <h3 style="margin: 0 0 15px 0;">RECIBO</h3>
-                            <p style="margin: 5px 0;">Recebi(emos) de: <span class="linha-preencher" style="width:65%"></span></p>
-                            <p style="margin: 5px 0;">A quantia de: <span class="linha-preencher" style="width:70%"></span></p>
-                            <p style="margin: 5px 0;">Referente a: <span class="linha-preencher" style="width:70%"></span></p>
-                            <p style="margin: 20px 0 0 0; font-size: 12px;">
-                                Data: ____/____/_______ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                Assinatura: <span class="linha-preencher" style="width:40%"></span>
-                            </p>
+                        
+                        <!-- VIA PRINCIPAL DO RECIBO -->
+                        <div class="principal-recibo">
+                            <span class="num-destaque" style="font-size: 20px;">R$ ${valorNum}</span>
+                            <h2 style="margin: 0 0 10px 0; border: none; padding: 0; color: #1e3a8a;">RECIBO Nº ${currentNum}</h2>
+                            
+                            <!-- Dados de quem está recebendo (Emissor) -->
+                            <div class="emissor-info" style="font-size: 11px; margin-bottom: 12px;">
+                                <strong>EMISSOR:</strong> ${emissor.nome} | <strong>CNPJ/CPF:</strong> ${emissor.doc}<br>
+                                <strong>Endereço:</strong> ${emissor.end} | <strong>Tel:</strong> ${emissor.tel}
+                            </div>
+                            
+                            <!-- Corpo do recibo preenchido -->
+                            <p style="margin: 6px 0;">Recebi(emos) de: <strong class="linha-preencher" style="width:78%;">${pagador}</strong></p>
+                            <p style="margin: 6px 0; font-size: 11px; color:#444;">Inscrito no CPF/CNPJ sob nº: <strong class="linha-preencher" style="width:71%;">${pagadorDoc}</strong></p>
+                            <p style="margin: 6px 0;">A importância de: <strong class="linha-preencher" style="width:79%;">R$ ${valorNum}</strong></p>
+                            <p style="margin: 6px 0;">Referente a: <strong class="linha-preencher" style="width:84%;">${ref}</strong></p>
+                            
+                            <!-- Data e Assinatura -->
+                            <div style="margin-top: 25px; display: flex; justify-content: space-between; align-items: flex-end;">
+                                <div>Cidade/Data: <strong class="linha-preencher" style="width:150px;">${data}</strong></div>
+                                <div style="text-align: center; width: 50%;">
+                                    <span class="linha-preencher" style="width: 100%;"></span><br>
+                                    <span style="font-size: 11px; font-weight: bold;">${emissor.nome}</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 `;
