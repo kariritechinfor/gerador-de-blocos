@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Blocos - Rifas e Recibos</title>
+    <style>
+        /* Estilos da Interface do Usuário */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+        .tab-btn {
+            padding: 10px 20px;
+            border: none;
+            background: #e0e0e0;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 4px;
+            transition: 0.3s;
+        }
+        .tab-btn.active {
+            background: #3498db;
+            color: white;
+        }
+        .form-section {
+            display: none;
+        }
+        .form-section.active {
+            display: block;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button.generate-btn {
+            width: 100%;
+            padding: 12px;
+            background: #2ecc71;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        button.generate-btn:hover {
+            background: #27ae60;
+        }
+
+        /* --- ESTILOS DE IMPRESSÃO (Onde a mágica do bloco acontece) --- */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #printArea, #printArea * {
+                visibility: visible;
+            }
+            #printArea {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+            }
+            .container {
+                box-shadow: none;
+                padding: 0;
+                margin: 0;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .bloco-item {
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+        }
+
+        /* Design dos Bilhetes Impressos */
+        .bloco-item {
+            display: flex;
+            border: 1px solid #999;
+            margin-bottom: 15px;
+            height: 130px;
+            background: #fff;
+            color: #000;
+            box-sizing: border-box;
+        }
+        .canhoto {
+            width: 30%;
+            border-right: 2px dashed #666;
+            padding: 10px;
+            box-sizing: border-box;
+            font-size: 12px;
+            position: relative;
+        }
+        .via-principal {
+            width: 70%;
+            padding: 10px;
+            box-sizing: border-box;
+            position: relative;
+        }
+        .num-destaque {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            color: red;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .linha-preencher {
+            border-bottom: 1px solid #000;
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container no-print">
+        <h1>🎟️ Gerador de Blocos</h1>
+        
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('rifa')">Criar Rifa</button>
+            <button class="tab-btn" onclick="switchTab('recibo')">Criar Recibo</button>
+        </div>
+
+        <div id="rifa-section" class="form-section active">
+            <h2>Configurar Bloco de Rifas</h2>
+            <div class="form-group">
+                <label>Prêmio:</label>
+                <input type="text" id="rifa-premio" value="Notebook Novo">
+            </div>
+            <div class="form-group">
+                <label>Valor (R$):</label>
+                <input type="number" id="rifa-valor" value="10.00" step="0.01">
+            </div>
+            <div class="form-group">
+                <label>Data do Sorteio:</label>
+                <input type="text" id="rifa-data" value="31/12/2026">
+            </div>
+            <div class="form-group">
+                <label>Quantidade de Bilhetes:</label>
+                <input type="number" id="rifa-qtd" value="10" min="1">
+            </div>
+            <button class="generate-btn" onclick="gerarRifas()">Visualizar e Imprimir Rifa</button>
+        </div>
+
+        <div id="recibo-section" class="form-section">
+            <h2>Configurar Bloco de Recibos</h2>
+            <p style="text-align: center; color: #666;">Os recibos serão gerados com campos em branco para preenchimento manual.</p>
+            <div class="form-group">
+                <label>Quantidade de Recibos:</label>
+                <input type="number" id="recibo-qtd" value="5" min="1">
+            </div>
+            <button class="generate-btn" onclick="gerarRecibos()">Visualizar e Imprimir Recibos</button>
+        </div>
+    </div>
+
+    <div id="printArea"></div>
+
+    <script>
+        // Alternar entre abas de Rifa e Recibo
+        function switchTab(type) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
+            
+            if(type === 'rifa') {
+                document.querySelectorAll('.tab-btn')[0].classList.add('active');
+                document.getElementById('rifa-section').classList.add('active');
+            } else {
+                document.querySelectorAll('.tab-btn')[1].classList.add('active');
+                document.getElementById('recibo-section').classList.add('active');
+            }
+        }
+
+        // Função para gerar as Rifas dinamicamente
+        function gerarRifas() {
+            const premio = document.getElementById('rifa-premio').value;
+            const valor = parseFloat(document.getElementById('rifa-valor').value).toFixed(2).replace('.', ',');
+            const data = document.getElementById('rifa-data').value;
+            const qtd = parseInt(document.getElementById('rifa-qtd').value);
+            
+            let htmlContent = '';
+
+            for(let i = 1; i <= qtd; i++) {
+                let numStr = String(i).padStart(3, '0');
+                htmlContent += `
+                    <div class="bloco-item">
+                        <div class="canhoto">
+                            <strong>Nº ${numStr}</strong><br><br>
+                            Nome: <span class="linha-preencher" style="width:70%"></span><br>
+                            Tel: <span class="linha-preencher" style="width:75%"></span><br>
+                            Data: <span class="linha-preencher" style="width:70%"></span>
+                        </div>
+                        <div class="via-principal">
+                            <span class="num-destaque">Nº ${numStr}</span>
+                            <h3 style="margin: 0 0 10px 0;">AÇÃO ENTRE AMIGOS</h3>
+                            <p style="margin: 5px 0;"><strong>Prêmio:</strong> ${premio}</p>
+                            <p style="margin: 5px 0;"><strong>Data do Sorteio:</strong> ${data}</p>
+                            <p style="margin: 5px 0;"><strong>Valor:</strong> R$ ${valor}</p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            document.getElementById('printArea').innerHTML = htmlContent;
+            window.print(); // Abre a tela de salvar como PDF ou Imprimir do navegador
+        }
+
+        // Função para gerar os Recibos dinamicamente
+        function gerarRecibos() {
+            const qtd = parseInt(document.getElementById('recibo-qtd').value);
+            let htmlContent = '';
+
+            for(let i = 1; i <= qtd; i++) {
+                let numStr = String(i).padStart(3, '0');
+                htmlContent += `
+                    <div class="bloco-item" style="height: 150px;">
+                        <div class="canhoto" style="font-size: 11px;">
+                            <strong>RECIBO Nº ${numStr}</strong><br><br>
+                            Para: <span class="linha-preencher" style="width:65%"></span><br>
+                            Quantia: <span class="linha-preencher" style="width:55%"></span><br>
+                            Data: ____/____/_____
+                        </div>
+                        <div class="via-principal">
+                            <span class="num-destaque">Nº ${numStr}</span>
+                            <h3 style="margin: 0 0 15px 0;">RECIBO</h3>
+                            <p style="margin: 5px 0;">Recebi(emos) de: <span class="linha-preencher" style="width:65%"></span></p>
+                            <p style="margin: 5px 0;">A quantia de: <span class="linha-preencher" style="width:70%"></span></p>
+                            <p style="margin: 5px 0;">Referente a: <span class="linha-preencher" style="width:70%"></span></p>
+                            <p style="margin: 20px 0 0 0; font-size: 12px;">
+                                Data: ____/____/_______ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                Assinatura: <span class="linha-preencher" style="width:40%"></span>
+                            </p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            document.getElementById('printArea').innerHTML = htmlContent;
+            window.print();
+        }
+    </script>
+</body>
+</html>
