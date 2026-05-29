@@ -5,10 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gerador Profissional de Impressos - Rifas, Bingos, Recibos e Calendários</title>
     
-    <!-- Tailwind CSS (Play CDN para rodar direto em arquivo único) -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     
-    <!-- html2pdf.js para exportação direta de alta fidelidade em formato A4 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
@@ -37,16 +35,10 @@
         .page-break {
             page-break-after: always;
         }
-        
-        /* Estilo da malha de pontos para canhotos destacáveis */
-        .dashed-line {
-            border-style: dashed;
-        }
     </style>
 </head>
 <body class="font-sans antialiased">
 
-    <!-- Header Principal -->
     <header class="bg-slate-900 text-white shadow-md">
         <div class="max-w-7xl mx-auto px-4 py-5 flex flex-col sm:flex-row justify-between items-center gap-4">
             <div class="flex items-center gap-3">
@@ -62,7 +54,6 @@
         </div>
     </header>
 
-    <!-- Navegação por Abas (Módulos do Sistema) -->
     <nav class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 flex space-x-2 overflow-x-auto whitespace-nowrap py-2">
             <button onclick="switchTab('rifas')" id="btn-rifas" class="tab-btn px-4 py-2.5 text-sm font-semibold rounded-lg transition-all duration-200 bg-red-600 text-white shadow-sm">
@@ -80,13 +71,10 @@
         </div>
     </nav>
 
-    <!-- Conteúdo Principal -->
     <main class="max-w-7xl mx-auto px-4 py-8">
         
-        <!-- ==================== MÓDULO 1: RIFAS ==================== -->
         <section id="rifas" class="tab-content active">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                <!-- Formulário de Configuração -->
                 <div class="lg:col-span-4 bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-4">
                     <h3 class="text-lg font-bold text-slate-800 border-b border-slate-100 pb-2 flex items-center gap-2">
                         <span class="text-red-600">■</span> Parâmetros da Rifa
@@ -99,8 +87,7 @@
                     
                     <div>
                         <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Descrição dos Prémios</label>
-                        <textarea id="rifa-desc" rows="3" class="w-full rounded-lg border border-slate-300 p-2 text-sm focus:ring-2 focus:ring-red-500 focus:outline-none">1º Prémio: Computador Completo Intel Core i5
-2º Prémio: Kit Teclado e Rato Sem Fios</textarea>
+                        <textarea id="rifa-desc" rows="3" class="w-full rounded-lg border border-slate-300 p-2 text-sm focus:ring-2 focus:ring-red-500 focus:outline-none">1º Prémio: Computador Completo Intel Core i5\n2º Prémio: Kit Teclado e Rato Sem Fios</textarea>
                     </div>
 
                     <div class="grid grid-cols-2 gap-3">
@@ -140,7 +127,6 @@
                     </div>
                 </div>
 
-                <!-- Área do Preview da Folha A4 -->
                 <div class="lg:col-span-8 bg-slate-300 p-4 rounded-xl overflow-x-auto border border-slate-400">
                     <div id="print-area-rifas" class="a4-page">
                         <p class="text-slate-400 text-center py-20 font-medium">Configure os campos e clique em "Atualizar Preview".</p>
@@ -149,7 +135,6 @@
             </div>
         </section>
 
-        <!-- ==================== MÓDULO 2: BINGO ==================== -->
         <section id="bingo" class="tab-content">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                 <div class="lg:col-span-4 bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-4">
@@ -181,7 +166,6 @@
             </div>
         </section>
 
-        <!-- ==================== MÓDULO 3: RECIBOS ==================== -->
         <section id="recibos" class="tab-content">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                 <div class="lg:col-span-4 bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-4">
@@ -235,7 +219,6 @@
             </div>
         </section>
 
-        <!-- ==================== MÓDULO 4: CALENDÁRIOS ==================== -->
         <section id="calendarios" class="tab-content">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                 <div class="lg:col-span-4 bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-4">
@@ -285,15 +268,10 @@
 
     </main>
 
-    <!-- Footer Informativo -->
     <footer class="bg-white border-t border-slate-200 mt-20 py-6 text-center text-xs text-slate-500">
         <p>© 2026 KaririTech ImpressosPro. Código aberto disponível para clonagem no GitHub.</p>
     </footer>
 
-
-    <!-- ========================================================================== -->
-    <!-- MOTOR LÓGICO JAVASCRIPT (Controladores e Geradores)                        -->
-    <!-- ========================================================================== -->
     <script>
         // --- 1. GESTÃO DE ABAS ---
         function switchTab(tabId) {
@@ -307,7 +285,6 @@
             const activeBtn = document.getElementById(`btn-${tabId}`);
             activeBtn.classList.remove('text-slate-600', 'hover:bg-slate-100');
             
-            // Cor adaptativa por módulo
             if (tabId === 'rifas') activeBtn.classList.add('bg-red-600', 'text-white', 'shadow-sm');
             if (tabId === 'bingo') activeBtn.classList.add('bg-blue-600', 'text-white', 'shadow-sm');
             if (tabId === 'recibos') activeBtn.classList.add('bg-indigo-600', 'text-white', 'shadow-sm');
@@ -321,7 +298,6 @@
             else box.classList.add('hidden');
         }
 
-        // Armazenamento Base64 global para imagens de Upload
         let uploadedLogoBase64 = "";
         document.getElementById('rifa-logo')?.addEventListener('change', function(e) {
             const file = e.target.files[0];
@@ -329,7 +305,6 @@
             reader.onloadend = function() { uploadedLogoBase64 = reader.result; };
             if (file) reader.readAsDataURL(file);
         });
-
 
         // --- 2. EXPORTAÇÃO PDF UNIVERSAL ---
         function exportarPDF(elementId, filename) {
@@ -344,11 +319,10 @@
             html2pdf().set(options).from(element).save();
         }
 
-
-        // --- 3. MÓDULO RIFAS (GERADOR) ---
+        // --- 3. MÓDULO RIFAS ---
         function gerarRifas() {
             const titulo = document.getElementById('rifa-titulo').value.toUpperCase();
-            const desc = document.getElementById('rifa-desc').value.replace(/\n/g, '<br>');
+            const desc = document.getElementById('rifa-desc').value.replace(/\\n/g, '<br>');
             const valor = document.getElementById('rifa-valor').value;
             const rawData = document.getElementById('rifa-data').value;
             const dataStr = rawData ? new Date(rawData).toLocaleDateString('pt-BR') : '___/___/_____';
@@ -363,10 +337,8 @@
             for (let i = 0; i < qtd; i++) {
                 const numeroSequencial = String(inicio + i).padStart(5, '0');
                 
-                // Distribuição de Layout com canhoto destacável
                 html += `
                     <div style="display: flex; border: 1.5px dashed #475569; border-radius: 6px; padding: 10px; height: 115px; overflow: hidden; background: #fff; font-family: sans-serif;">
-                        <!-- Canhoto de Conferência -->
                         <div style="width: 28%; border-right: 1.5px dotted #cbd5e1; padding-right: 8px; display: flex; flex-direction: column; justify-content: space-between; font-size: 10px;">
                             <div>
                                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
@@ -381,7 +353,6 @@
                             </div>
                         </div>
                         
-                        <!-- Corpo da Rifa Principal -->
                         <div style="width: 72%; padding-left: 12px; display: flex; justify-content: space-between; position: relative;">
                             <div style="display: flex; flex-direction: column; justify-content: space-between; width: 80%;">
                                 <div>
@@ -394,8 +365,7 @@
                                 </div>
                             </div>
                             
-                            <!-- Imagem Logotipo / Número Alinhado à Direita -->
-                            <div style="display: flex; flex-direction: column; align-items: flex-end; justify-content: space-between; width: 20%;">
+                            <div style="display: flex; flex-direction: column; items-end: flex-end; justify-content: space-between; width: 20%; align-items: flex-end;">
                                 ${uploadedLogoBase64 ? `<img src="${uploadedLogoBase64}" style="max-height: 40px; max-width: 100%; object-fit: contain;">` : '<div style="font-size:8px; color:#cbd5e1; border: 1px solid #f1f5f9; padding: 4px; text-align:center;">KaririTech</div>'}
                                 <span style="font-size: 15px; font-weight: 900; color: #e11d48; font-family: monospace;">Nº ${numeroSequencial}</span>
                             </div>
@@ -403,7 +373,6 @@
                     </div>
                 `;
                 
-                // Controle de paginação para evitar quebra feia no PDF (máximo 8 por folha A4)
                 if ((i + 1) % 8 === 0 && (i + 1) < qtd) {
                     html += '</div><div class="page-break"></div><div style="display: flex; flex-direction: column; gap: 10px; margin-top:15mm;">';
                 }
@@ -413,8 +382,7 @@
             container.innerHTML = html;
         }
 
-
-        // --- 4. MÓDULO BINGO (GERADOR) ---
+        // --- 4. MÓDULO BINGO ---
         function gerarNumerosBingoUnicos(min, max, total) {
             let nums = [];
             while (nums.length < total) {
@@ -438,7 +406,6 @@
                 const n = gerarNumerosBingoUnicos(31, 45, 5);
                 const g = gerarNumerosBingoUnicos(46, 60, 5);
                 const o = gerarNumerosBingoUnicos(61, 75, 5);
-                
                 const cardId = String(c).padStart(4, '0');
 
                 html += `
@@ -482,7 +449,6 @@
                     </div>
                 `;
 
-                // Controle de 4 cartelas de bingo por folha A4
                 if (c % 4 === 0 && c < qtd) {
                     html += '</div><div class="page-break"></div><div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 15mm;">';
                 }
@@ -492,8 +458,7 @@
             container.innerHTML = html;
         }
 
-
-        // --- 5. MÓDULO RECIBOS (GERADOR) ---
+        // --- 5. MÓDULO RECIBOS ---
         function gerarRecibos() {
             const emitente = document.getElementById('recibo-emitente').value.toUpperCase();
             const doc = document.getElementById('recibo-doc').value;
@@ -513,7 +478,6 @@
                 const currentNum = numInicio + i;
                 html += `
                     <div style="display: flex; border: 2px solid #1e3a8a; border-radius: 6px; background: #fff; font-family: sans-serif; font-size: 11px; height: 165px; overflow: hidden;">
-                        <!-- Canhoto Lateral Destacável -->
                         <div style="width: 25%; background: #f8fafc; border-right: 2px dashed #94a3b8; padding: 10px; display: flex; flex-direction: column; justify-content: space-between;">
                             <div>
                                 <div style="font-weight: bold; color: #1e3a8a; font-size: 12px; border-bottom: 1px solid #e2e8f0; padding-bottom:3px;">CANHOTO Nº ${currentNum}</div>
@@ -526,7 +490,6 @@
                             </div>
                         </div>
 
-                        <!-- Corpo Principal do Recibo Comercial -->
                         <div style="width: 75%; padding: 12px; display: flex; flex-direction: column; justify-content: space-between;">
                             <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #1e3a8a; padding-bottom: 5px;">
                                 <div style="font-size: 14px; font-weight: 800; color: #1e3a8a;">RECIBO COMERCIAL</div>
@@ -552,7 +515,6 @@
                     </div>
                 `;
 
-                // Cabe perfeitamente 4 blocos de recibos estruturados por página A4
                 if ((i + 1) % 4 === 0 && (i + 1) < qtd) {
                     html += '</div><div class="page-break"></div><div style="display: flex; flex-direction: column; gap: 20px; margin-top:15mm;">';
                 }
@@ -562,8 +524,7 @@
             container.innerHTML = html;
         }
 
-
-        // --- 6. MÓDULO CALENDÁRIOS (GERADOR) ---
+        // --- 6. MÓDULO CALENDÁRIOS ---
         function diasNoMes(mes, ano) {
             return new Date(ano, mes + 1, 0).getDate();
         }
@@ -590,14 +551,13 @@
                 html += '</div>';
                 container.innerHTML = html;
             } else {
-                // Mini Calendários (Renderiza 6 cópias do mês selecionado por página para cortes rápidos e brindes)
                 const mesSel = parseInt(document.getElementById('cal-mes').value);
-                let html = `<h2 style="text-align: center; margin: 0 0 15px 0; font-size: 14px; font-weight: bold; color:#64748b;">Mini Calendários Distribuição de Brindes (Tamanho Reduzido)</h2>`;
+                let html = `<h2 style="text-align: center; margin: 0 0 15px 0; font-size: 14px; font-weight: bold; color:#64748b;">Mini Calendários Distribuição de Brindes</h2>`;
                 html += '<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">';
                 
                 for (let k = 0; k < 6; k++) {
                     html += `<div style="border: 1px dashed #94a3b8; padding: 10px; background:#fff; border-radius:4px;">`;
-                    html += <div style="text-align:center; font-size:9px; font-weight:bold; color:#94a3b8; margin-bottom:4px;">Bloco de Brinde #${k+1}</div>;
+                    html += `<div style="text-align:center; font-size:9px; font-weight:bold; color:#94a3b8; margin-bottom:4px;">Bloco de Brinde #${k+1}</div>`;
                     html += construirGradeMes(ano, mesSel, nomesMeses[mesSel].toUpperCase() + " " + ano, diasSemana, true);
                     html += `</div>`;
                 }
