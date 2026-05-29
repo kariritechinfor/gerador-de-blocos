@@ -56,7 +56,7 @@
             
             <div class="bg-slate-800 p-2 rounded-lg border border-slate-700 flex items-center gap-2">
                 <label class="text-xs font-bold uppercase text-slate-400 px-1">Fundo:</label>
-                <select id="seletor-fundo" onchange="mudarFundo Sistema()" class="bg-slate-900 text-white text-xs rounded border border-slate-600 p-1 focus:outline-none cursor-pointer">
+                <select id="seletor-fundo" onchange="mudarFundoSistema()" class="bg-slate-900 text-white text-xs rounded border border-slate-600 p-1 focus:outline-none cursor-pointer">
                     <option value="bg-padrao">Cinza Claro (Padrão)</option>
                     <option value="bg-escuro">Modo Escuro</option>
                     <option value="bg-azul">Azul Corporativo</option>
@@ -133,4 +133,26 @@
                         <button onclick="gerarRifas()" class="w-full bg-slate-800 text-white font-semibold py-2.5 px-4 rounded-lg hover:bg-slate-900 transition shadow-sm cursor-pointer">
                             🔄 Atualizar Preview
                         </button>
-                        <button onclick="exportarPDF('print-area-rifas
+                        <button onclick="exportarPDF('print-area-rifas', 'rifas_sequenciais')" class="w-full bg-emerald-600 text-white font-bold py-2.5 px-4 rounded-lg hover:bg-emerald-700 transition shadow-sm cursor-pointer flex items-center justify-center gap-2">
+                            💾 Descarregar PDF (A4)
+                        </button>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-8 bg-slate-400 p-4 rounded-xl overflow-x-auto border border-slate-500">
+                    <div id="print-area-rifas" class="a4-page">
+                        <p class="text-slate-400 text-center py-20 font-medium">Configure os campos e clique em "Atualizar Preview".</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="bingo" class="tab-content">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                <div class="lg:col-span-4 bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-4">
+                    <h3 class="text-lg font-bold text-slate-800 border-b border-slate-100 pb-2 flex items-center gap-2">
+                        <span class="text-blue-600">■</span> Configuração do Bingo
+                    </h3>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Título do Evento</label>
+                        <input type="text" id="bingo-titulo" value="GRANDE BINGO BENEFICENTE" class="w-full rounded
