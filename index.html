@@ -155,4 +155,375 @@
                     </h3>
                     <div>
                         <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Título do Evento</label>
-                        <input type="text" id="bingo-titulo" value="GRANDE BINGO BENEFICENTE" class="w-full rounded
+                        <input type="text" id="bingo-titulo" value="GRANDE BINGO BENEFICENTE" class="w-full rounded-lg border border-slate-300 p-2 text-sm focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Quantidade de Cartelas</label>
+                        <input type="number" id="bingo-qtd" value="4" min="1" max="100" class="w-full rounded-lg border border-slate-300 p-2 text-sm focus:outline-none">
+                    </div>
+                    <div class="pt-4 space-y-2">
+                        <button onclick="gerarBingo()" class="w-full bg-slate-800 text-white font-semibold py-2.5 px-4 rounded-lg hover:bg-slate-900 transition cursor-pointer">
+                            🎰 Gerar Novas Cartelas
+                        </button>
+                        <button onclick="exportarPDF('print-area-bingo', 'cartelas_bingo')" class="w-full bg-emerald-600 text-white font-bold py-2.5 px-4 rounded-lg hover:bg-emerald-700 transition cursor-pointer flex items-center justify-center gap-2">
+                            💾 Descarregar PDF Bingo
+                        </button>
+                    </div>
+                </div>
+                <div class="lg:col-span-8 bg-slate-400 p-4 rounded-xl overflow-x-auto border border-slate-500">
+                    <div id="print-area-bingo" class="a4-page">
+                        <p class="text-slate-400 text-center py-20 font-medium">Clique em "Gerar Novas Cartelas" para renderizar as matrizes oficiais.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="recibos" class="tab-content">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                <div class="lg:col-span-4 bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-4">
+                    <h3 class="text-lg font-bold text-slate-800 border-b border-slate-100 pb-2 flex items-center gap-2">
+                        <span class="text-indigo-600">■</span> Emissão de Recibo
+                    </h3>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Nome do Emitente</label>
+                        <input type="text" id="recibo-emitente" value="KARIRITECH INFORMÁTICA" class="w-full rounded-lg border border-slate-300 p-2 text-sm focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Documento (CPF/CNPJ)</label>
+                        <input type="text" id="recibo-doc" value="00.000.000/0001-00" class="w-full rounded-lg border border-slate-300 p-2 text-sm focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Valor do Recibo (R$)</label>
+                        <input type="text" id="recibo-valor" value="150,00" class="w-full rounded-lg border border-slate-300 p-2 text-sm focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Nome do Pagador</label>
+                        <input type="text" id="recibo-pagador" value="Carlos Silva de Oliveira" class="w-full rounded-lg border border-slate-300 p-2 text-sm focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Referente a (Conceito)</label>
+                        <input type="text" id="recibo-concepto" value="Manutenção de Computador e Instalação de Sistema" class="w-full rounded-lg border border-slate-300 p-2 text-sm focus:outline-none">
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Nº Inicial</label>
+                            <input type="number" id="recibo-num" value="101" class="w-full rounded-lg border border-slate-300 p-2 text-sm focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Quantidade</label>
+                            <input type="number" id="recibo-qtd" value="3" class="w-full rounded-lg border border-slate-300 p-2 text-sm focus:outline-none">
+                        </div>
+                    </div>
+                    <div class="pt-4 space-y-2">
+                        <button onclick="gerarRecibos()" class="w-full bg-slate-800 text-white font-semibold py-2.5 px-4 rounded-lg hover:bg-slate-900 transition cursor-pointer">
+                            🔄 Atualizar Recibos
+                        </button>
+                        <button onclick="exportarPDF('print-area-recibos', 'bloco_recibos')" class="w-full bg-emerald-600 text-white font-bold py-2.5 px-4 rounded-lg hover:bg-emerald-700 transition cursor-pointer flex items-center justify-center gap-2">
+                            💾 Descarregar PDF Recibo
+                        </button>
+                    </div>
+                </div>
+                <div class="lg:col-span-8 bg-slate-400 p-4 rounded-xl overflow-x-auto border border-slate-500">
+                    <div id="print-area-recibos" class="a4-page">
+                        <p class="text-slate-400 text-center py-20 font-medium">Configure os dados para ver o bloco de recibos com canhoto.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="calendarios" class="tab-content">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                <div class="lg:col-span-4 bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-4">
+                    <h3 class="text-lg font-bold text-slate-800 border-b border-slate-100 pb-2 flex items-center gap-2">
+                        <span class="text-amber-600">■</span> Parâmetros do Calendário Empresarial
+                    </h3>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Nome da Empresa no Topo</label>
+                        <input type="text" id="cal-empresa" value="KARIRITECH INFORMÁTICA" class="w-full rounded-lg border border-slate-300 p-2 text-sm focus:outline-none">
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Ano</label>
+                            <select id="cal-ano" class="w-full rounded-lg border border-slate-300 p-2 text-sm focus:outline-none">
+                                <option value="2026" selected>2026</option>
+                                <option value="2027">2027</option>
+                                <option value="2028">2028</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Tipo de Layout</label>
+                            <select id="cal-tipo" class="w-full rounded-lg border border-slate-300 p-2 text-sm focus:outline-none" onchange="toggleCalendarioOpcoes()">
+                                <option value="a4-completo">Folha Completa (A4)</option>
+                                <option value="mini-bloco">Mini Calendários</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="box-mini-mes" class="hidden">
+                        <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Mês Específico (Para Mini)</label>
+                        <select id="cal-mes" class="w-full rounded-lg border border-slate-300 p-2 text-sm focus:outline-none">
+                            <option value="0">Janeiro</option><option value="1">Fevereiro</option><option value="2">Março</option>
+                            <option value="3">Abril</option><option value="4">Maio</option><option value="5">Junho</option>
+                            <option value="6">Julho</option><option value="7">Agosto</option><option value="8">Setembro</option>
+                            <option value="9">Outubro</option><option value="10">Novembro</option><option value="11">Dezembro</option>
+                        </select>
+                    </div>
+                    <div class="pt-4 space-y-2">
+                        <button onclick="gerarCalendarios()" class="w-full bg-slate-800 text-white font-semibold py-2.5 px-4 rounded-lg hover:bg-slate-900 transition cursor-pointer">
+                            📅 Construir Calendário
+                        </button>
+                        <button onclick="exportarPDF('print-area-calendarios', 'calendario_personalizado')" class="w-full bg-emerald-600 text-white font-bold py-2.5 px-4 rounded-lg hover:bg-emerald-700 transition cursor-pointer flex items-center justify-center gap-2">
+                            💾 Descarregar PDF Calendário
+                        </button>
+                    </div>
+                </div>
+                <div class="lg:col-span-8 bg-slate-400 p-4 rounded-xl overflow-x-auto border border-slate-500">
+                    <div id="print-area-calendarios" class="a4-page">
+                        <p class="text-slate-400 text-center py-20 font-medium">Escolha o modelo de calendário para renderização estruturada com sua marca.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-white border-t border-slate-200 mt-20 py-6 text-center text-xs text-slate-500">
+        <p>© 2026 KaririTech ImpressosPro. Sistema de Código Aberto para GitHub.</p>
+    </footer>
+
+    <script>
+        // Variável global para armazenar a imagem carregada em Base64
+        let uploadedLogoBase64 = "";
+
+        // --- 1. CONTROLE DE PAPEL DE PAREDE (FUNDO) ---
+        function mudarFundoSistema() {
+            const seletor = document.getElementById('seletor-fundo');
+            const classeSelecionada = seletor.value;
+            const corpo = document.getElementById('corpo-sistema');
+            
+            corpo.classList.remove('bg-padrao', 'bg-escuro', 'bg-azul', 'bg-tecnologico');
+            corpo.classList.add(classeSelecionada);
+        }
+
+        // --- 2. GESTÃO DE ABAS ---
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-red-600', 'text-white', 'shadow-sm', 'bg-blue-600', 'bg-indigo-600', 'bg-amber-600');
+                btn.classList.add('text-slate-600', 'hover:bg-slate-100');
+            });
+            
+            document.getElementById(tabId).classList.add('active');
+            const activeBtn = document.getElementById(`btn-${tabId}`);
+            activeBtn.classList.remove('text-slate-600', 'hover:bg-slate-100');
+            
+            if (tabId === 'rifas') activeBtn.classList.add('bg-red-600', 'text-white', 'shadow-sm');
+            if (tabId === 'bingo') activeBtn.classList.add('bg-blue-600', 'text-white', 'shadow-sm');
+            if (tabId === 'recibos') activeBtn.classList.add('bg-indigo-600', 'text-white', 'shadow-sm');
+            if (tabId === 'calendarios') activeBtn.classList.add('bg-amber-600', 'text-white', 'shadow-sm');
+        }
+
+        function toggleCalendarioOpcoes() {
+            const tipo = document.getElementById('cal-tipo').value;
+            const box = document.getElementById('box-mini-mes');
+            if (tipo === 'mini-bloco') box.classList.remove('hidden');
+            else box.classList.add('hidden');
+        }
+
+        // Ouvinte do input de Logomarca corrigido para ler o arquivo corretamente
+        document.getElementById('rifa-logo')?.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) { 
+                    uploadedLogoBase64 = event.target.result; 
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // --- 3. EXPORTAÇÃO PDF ---
+        function exportarPDF(elementId, filename) {
+            const element = document.getElementById(elementId);
+            const options = {
+                margin: 0,
+                filename: `${filename}.pdf`,
+                image: { type: 'jpeg', quality: 1.0 },
+                html2canvas: { scale: 2, useCORS: true, logging: false },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+            html2pdf().set(options).from(element).save();
+        }
+
+        // --- 4. MÓDULO RIFAS ---
+        function gerarRifas() {
+            const titulo = document.getElementById('rifa-titulo').value.toUpperCase();
+            const desc = document.getElementById('rifa-desc').value.replace(/\\n/g, '<br>');
+            const valor = document.getElementById('rifa-valor').value;
+            const rawData = document.getElementById('rifa-data').value;
+            const dataStr = rawData ? new Date(rawData).toLocaleDateString('pt-BR') : '___/___/_____';
+            const inicio = parseInt(document.getElementById('rifa-inicio').value) || 1;
+            const qtd = parseInt(document.getElementById('rifa-qtd').value) || 1;
+            
+            const container = document.getElementById('print-area-rifas');
+            container.innerHTML = "";
+
+            let html = '<div style="display: flex; flex-direction: column; gap: 12px;">';
+
+            for (let i = 0; i < qtd; i++) {
+                const numeroSequencial = String(inicio + i).padStart(5, '0');
+                
+                html += `
+                    <div style="display: flex; border: 2px dashed #334155; border-radius: 8px; padding: 14px; height: 145px; overflow: hidden; background: #fff; font-family: sans-serif;">
+                        <div style="width: 28%; border-right: 2px dotted #94a3b8; padding-right: 12px; display: flex; flex-direction: column; justify-content: space-between; font-size: 11px;">
+                            <div>
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                                    <span style="background: #e11d48; color: #fff; font-weight: bold; padding: 3px 6px; border-radius: 4px; font-size: 11px;">Nº ${numeroSequencial}</span>
+                                </div>
+                                <div style="font-weight: bold; font-size: 12px; color:#1e293b; overflow: hidden; text-overflow: ellipsis;">${titulo}</div>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 5px; font-size: 10px; color: #475569;">
+                                <div>Nome: _______________________</div>
+                                <div>Tel: ________________________</div>
+                                <div>Vendedor: __________________</div>
+                            </div>
+                        </div>
+                        
+                        <div style="width: 72%; padding-left: 16px; display: flex; justify-content: space-between; position: relative;">
+                            <div style="display: flex; flex-direction: column; justify-content: space-between; width: 80%;">
+                                <div>
+                                    <h4 style="margin: 0; font-size: 16px; font-weight: bold; color: #0f172a;">${titulo}</h4>
+                                    <p style="margin: 6px 0 0 0; font-size: 11px; color: #334155; line-height: 1.4; max-height: 55px; overflow: hidden;">${desc}</p>
+                                </div>
+                                <div style="font-size: 11px; font-weight: 700; color: #475569;">
+                                    <span>SORTEIO: <strong style="color: #0f172a;">${dataStr}</strong></span>
+                                    <span style="margin-left: 20px;">VALOR: <strong style="color: #16a34a; font-size: 13px;">R$ ${valor}</strong></span>
+                                </div>
+                            </div>
+                            
+                            <div style="display: flex; flex-direction: column; justify-content: space-between; align-items: flex-end; width: 20%;">
+                                ${uploadedLogoBase64 ? `<img src="${uploadedLogoBase64}" style="max-height: 55px; max-width: 100%; object-fit: contain; border-radius:4px;">` : '<div style="font-size:9px; color:#94a3b8; border: 1px solid #e2e8f0; padding: 6px; text-align:center; font-weight:bold; border-radius:4px;">EMPRESA</div>'}
+                                <span style="font-size: 18px; font-weight: 900; color: #e11d48; font-family: monospace;">Nº ${numeroSequencial}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                if ((i + 1) % 6 === 0 && (i + 1) < qtd) {
+                    html += '</div><div class="page-break"></div><div style="display: flex; flex-direction: column; gap: 12px; margin-top:15mm;">';
+                }
+            }
+
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        // --- 5. MÓDULO BINGO ---
+        function gerarNumerosBingoUnicos(min, max, total) {
+            let nums = [];
+            while (nums.length < total) {
+                let n = Math.floor(Math.random() * (max - min + 1)) + min;
+                if (!nums.includes(n)) nums.push(n);
+            }
+            return nums.sort((a, b) => a - b);
+        }
+
+        function gerarBingo() {
+            const titulo = document.getElementById('bingo-titulo').value.toUpperCase();
+            const qtd = parseInt(document.getElementById('bingo-qtd').value) || 1;
+            const container = document.getElementById('print-area-bingo');
+            container.innerHTML = "";
+
+            let html = '<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">';
+
+            for (let c = 1; c <= qtd; c++) {
+                const b = gerarNumerosBingoUnicos(1, 15, 5);
+                const i = gerarNumerosBingoUnicos(16, 30, 5);
+                const n = gerarNumerosBingoUnicos(31, 45, 5);
+                const g = gerarNumerosBingoUnicos(46, 60, 5);
+                const o = gerarNumerosBingoUnicos(61, 75, 5);
+                const cardId = String(c).padStart(4, '0');
+
+                html += `
+                    <div style="border: 2px solid #0f172a; border-radius: 8px; padding: 10px; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 4px; margin-bottom: 6px;">
+                            <span style="font-size: 11px; font-weight: bold; color:#1e293b; max-width:140px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${titulo}</span>
+                            <span style="font-size: 10px; font-weight: bold; background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-family: monospace;">Nº ${cardId}</span>
+                        </div>
+                        <table style="width: 100%; text-align: center; border-collapse: collapse; font-family: sans-serif; font-size: 13px;">
+                            <thead>
+                                <tr style="background: #0f172a; color: white; font-size: 14px; font-weight: bold;">
+                                    <th style="padding: 4px; border: 1px solid #334155;">B</th>
+                                    <th style="padding: 4px; border: 1px solid #334155;">I</th>
+                                    <th style="padding: 4px; border: 1px solid #334155;">N</th>
+                                    <th style="padding: 4px; border: 1px solid #334155;">G</th>
+                                    <th style="padding: 4px; border: 1px solid #334155;">O</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                `;
+
+                for (let r = 0; r < 5; r++) {
+                    html += `<tr>`;
+                    html += `<td style="padding: 6px 4px; border: 1px solid #cbd5e1; font-weight: bold; color: #334155;">${b[r]}</td>`;
+                    html += `<td style="padding: 6px 4px; border: 1px solid #cbd5e1; font-weight: bold; color: #334155;">${i[r]}</td>`;
+                    if (r === 2) {
+                        html += `<td style="padding: 6px 4px; border: 1px solid #cbd5e1; background: #fef2f2; color: #dc2626; font-size: 9px; font-weight: 900; text-transform: uppercase;">Livre</td>`;
+                    } else {
+                        html += `<td style="padding: 6px 4px; border: 1px solid #cbd5e1; font-weight: bold; color: #334155;">${n[r]}</td>`;
+                    }
+                    html += `<td style="padding: 6px 4px; border: 1px solid #cbd5e1; font-weight: bold; color: #334155;">${g[r]}</td>`;
+                    html += `<td style="padding: 6px 4px; border: 1px solid #cbd5e1; font-weight: bold; color: #334155;">${o[r]}</td>`;
+                    html += `</tr>`;
+                }
+
+                html += `
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+
+                if (c % 4 === 0 && c < qtd) {
+                    html += '</div><div class="page-break"></div><div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 15mm;">';
+                }
+            }
+
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        // --- 6. MÓDULO RECIBOS ---
+        function gerarRecibos() {
+            const emitente = document.getElementById('recibo-emitente').value.toUpperCase();
+            const doc = document.getElementById('recibo-doc').value;
+            const valor = document.getElementById('recibo-valor').value;
+            const pagador = document.getElementById('recibo-pagador').value;
+            const concepto = document.getElementById('recibo-concepto').value;
+            const numInicio = parseInt(document.getElementById('recibo-num').value) || 1;
+            const qtd = parseInt(document.getElementById('recibo-qtd').value) || 1;
+
+            const container = document.getElementById('print-area-recibos');
+            container.innerHTML = "";
+
+            let html = '<div style="display: flex; flex-direction: column; gap: 20px;">';
+            const dataHoje = new Date().toLocaleDateString('pt-BR', { day: 'numeric', month: 'long', year: 'numeric' });
+
+            for (let i = 0; i < qtd; i++) {
+                const currentNum = numInicio + i;
+                html += `
+                    <div style="display: flex; border: 2px solid #1e3a8a; border-radius: 6px; background: #fff; font-family: sans-serif; font-size: 11px; height: 165px; overflow: hidden;">
+                        <div style="width: 25%; background: #f8fafc; border-right: 2px dashed #94a3b8; padding: 10px; display: flex; flex-direction: column; justify-content: space-between;">
+                            <div>
+                                <div style="font-weight: bold; color: #1e3a8a; font-size: 12px; border-bottom: 1px solid #e2e8f0; padding-bottom:3px;">CANHOTO Nº ${currentNum}</div>
+                                <div style="margin-top: 6px;"><strong>Valor:</strong> R$ ${valor}</div>
+                                <div style="margin-top: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><strong>Para:</strong> ${pagador}</div>
+                            </div>
+                            <div style="font-size: 9px; color: #64748b;">
+                                Assinatura do canhoto:<br><br>
+                                _______________________
+                            </div>
+                        </div>
+
+                        <div style="width: 75%; padding: 12px; display: flex; flex-direction: column; justify-content: space-between;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #1e3a8a; padding-bottom: 5px;">
+                                <div style="font-size: 14px; font-weight: 800; color: #1e3a8a;">RECIBO COMERCIAL</div>
+                                <div style="font-size: 13px; font-weight: bold; background: #e0f2fe; color: #0369a1; padding: 2px
